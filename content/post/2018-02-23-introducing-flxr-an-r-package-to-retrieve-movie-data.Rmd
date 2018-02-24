@@ -3,6 +3,7 @@ title: Introducing flxr - an R package to retrieve movie data
 author: Mark Roepke
 date: '2018-02-23'
 slug: introducing-flxr-an-r-package-to-retrieve-movie-data
+comments: true
 categories:
   - r
   - movies
