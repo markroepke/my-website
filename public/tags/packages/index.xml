@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Packages on Mark Roepke</title>
+    <link>/tags/packages/</link>
+    <description>Recent content in Packages on Mark Roepke</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/packages/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introducing flxr - an R package to retrieve movie data</title>
+      <link>/post/introducing-flxr-an-r-package-to-retrieve-movie-data/</link>
+      <pubDate>Fri, 23 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/introducing-flxr-an-r-package-to-retrieve-movie-data/</guid>
+      <description>I am happy to say that I’ve created my first R package: flxr. This package is designed to scrape basic data about movies.
+It can be installed using the devtools package:
+devtools::install_github(&amp;quot;markroepke/flxr&amp;quot;)library(flxr)The flxr package retrieves information about movies using only a user-provided movie title. For example, if we wanted to find the director of The Godfather, we could use the flx_mov_director() function:
+flx_mov_director(movie = &amp;quot;The Godfather&amp;quot;)## Returning movie director for The Godfather:## [1] &amp;quot;Francis Ford Coppola&amp;quot;You will notice the message above specifying that the director for The Godfather is being returned.</description>
+    </item>
+    
+  </channel>
+</rss>

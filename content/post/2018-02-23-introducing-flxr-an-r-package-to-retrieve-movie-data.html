@@ -1,0 +1,70 @@
+---
+title: Introducing flxr - an R package to retrieve movie data
+author: Mark Roepke
+date: '2018-02-23'
+slug: introducing-flxr-an-r-package-to-retrieve-movie-data
+categories:
+  - r
+  - movies
+  - scraping
+  - packages
+tags:
+  - r
+  - movies
+  - scraping
+  - packages
+---
+
+
+
+<p>I am happy to say that I’ve created my first R package: <code>flxr</code>. This package is designed to scrape basic data about movies.</p>
+<p>It can be installed using the <code>devtools</code> package:</p>
+<pre class="r"><code>devtools::install_github(&quot;markroepke/flxr&quot;)
+library(flxr)</code></pre>
+<p>The <code>flxr</code> package retrieves information about movies using only a user-provided movie title. For example, if we wanted to find the director of <em>The Godfather</em>, we could use the <code>flx_mov_director()</code> function:</p>
+<pre class="r"><code>flx_mov_director(movie = &quot;The Godfather&quot;)</code></pre>
+<pre><code>## Returning movie director for The Godfather:</code></pre>
+<pre><code>## [1] &quot;Francis Ford Coppola&quot;</code></pre>
+<p>You will notice the message above specifying that the director for <em>The Godfather</em> is being returned. This is printed to ensure the user that the correct movie was found based on the movie name provided to the function.</p>
+<p>There are many other functions available in <code>flxr</code> to retrieve other data. These functions include:</p>
+<ul>
+<li><code>flx_mov_desc()</code> to return the movie description</li>
+<li><code>flx_mov_genre()</code> to return the movie genre</li>
+<li><code>flx_mov_runtime()</code> to return the movie runtime</li>
+<li><code>flx_mov_user_rtg()</code> to return the movie average IMDB user rating</li>
+<li><code>flx_mov_mc_rtg()</code> to return the movie Metacritic rating</li>
+<li><code>flx_mov_lead_cast()</code> to return the movie title cast</li>
+</ul>
+<p><br></p>
+<p>And finally, there is a function to return all of the above information:</p>
+<pre class="r"><code>library(magrittr)
+flx_mov_details(movie = &quot;The Godfather&quot;) %&gt;%
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">movie</th>
+<th align="left">description</th>
+<th align="left">genre</th>
+<th align="left">director</th>
+<th align="left">lead_cast</th>
+<th align="right">runtime</th>
+<th align="right">user_rating</th>
+<th align="right">metacritic_rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">The Godfather</td>
+<td align="left">The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</td>
+<td align="left">Crime</td>
+<td align="left">Francis Ford Coppola</td>
+<td align="left">Marlon Brando, Al Pacino, James Caan</td>
+<td align="right">175</td>
+<td align="right">9.2</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>I am hoping to use this package in the coming days to look into the Oscar-nominated films.</p>

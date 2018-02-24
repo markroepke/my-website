@@ -1,0 +1,60 @@
+---
+title: Introducing flxr - an R package to retrieve movie data
+author: Mark Roepke
+date: '2018-02-23'
+slug: introducing-flxr-an-r-package-to-retrieve-movie-data
+categories:
+  - r
+  - movies
+  - scraping
+  - packages
+tags:
+  - r
+  - movies
+  - scraping
+  - packages
+---
+
+I am happy to say that I've created my first R package: `flxr`. This package is designed to scrape basic data about movies.
+
+It can be installed using the `devtools` package:
+
+```{r eval = FALSE}
+devtools::install_github("markroepke/flxr")
+library(flxr)
+```
+
+```{r echo = FALSE}
+library(flxr)
+```
+
+The `flxr` package retrieves information about movies using only a user-provided movie title. For example, if we wanted to find the director of _The Godfather_, we could use the `flx_mov_director()` function:
+
+```{r}
+flx_mov_director(movie = "The Godfather")
+```
+
+You will notice the message above specifying that the director for _The Godfather_ is being returned. This is printed to ensure the user that the correct movie was found based on the movie name provided to the function.
+
+There are many other functions available in `flxr` to retrieve other data. These functions include:
+
+* `flx_mov_desc()` to return the movie description
+* `flx_mov_genre()` to return the movie genre
+* `flx_mov_runtime()` to return the movie runtime
+* `flx_mov_user_rtg()` to return the movie average IMDB user rating
+* `flx_mov_mc_rtg()` to return the movie Metacritic rating
+* `flx_mov_lead_cast()` to return the movie title cast
+
+<br>
+
+And finally, there is a function to return all of the above information:
+
+```{r}
+library(magrittr)
+flx_mov_details(movie = "The Godfather") %>%
+  knitr::kable()
+```
+
+<br>
+
+I am hoping to use this package in the coming days to look into the Oscar-nominated films.
