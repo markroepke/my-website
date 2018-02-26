@@ -6,10 +6,19 @@
     <description>Recent content in R on Mark Roepke</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 23 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Comparing Oscar-nominated movies in R using flxr</title>
+      <link>/post/comparing-oscar-nominated-movies-in-r-using-flxr/</link>
+      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/comparing-oscar-nominated-movies-in-r-using-flxr/</guid>
+      <description>In my first post I introduced flxr, a basic R package I wrote to retrieve basic movie data from the web. I showed examples of how a user can retrieve the director of a movie using flxr::flx_mov_director() and other movie details using flxr::flx_mov_details(). I decided to use The Godfather as the movie in my example (because, of course), but I’d like to dig into and compare movies nominated for the upcoming Academy Awards.</description>
+    </item>
     
     <item>
       <title>Introducing flxr - an R package to retrieve movie data</title>

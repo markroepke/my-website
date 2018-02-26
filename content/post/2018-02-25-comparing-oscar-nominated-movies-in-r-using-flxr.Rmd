@@ -1,0 +1,159 @@
+---
+title: Comparing Oscar-nominated movies in R using flxr
+author: Mark Roepke
+date: '2018-02-25'
+slug: comparing-oscar-nominated-movies-in-r-using-flxr
+comments: false
+categories:
+  - r
+  - movies
+  - scraping
+  - packages
+tags:
+  - r
+  - movies
+  - scraping
+  - packages
+---
+
+In my [first post](https://www.markroepke.me/post/introducing-flxr-an-r-package-to-retrieve-movie-data/) I introduced `flxr`, a basic R package I wrote to retrieve basic movie data from the web. I showed examples of how a user can retrieve the director of a movie using `flxr::flx_mov_director()` and other movie details using `flxr::flx_mov_details()`. I decided to use The Godfather as the movie in my example (because, of course), but I'd like to dig into and compare movies nominated for the upcoming Academy Awards.
+
+<br>
+
+## Setting up our R session
+
+The first thing we need to do is install `flxr` if we haven't already. `flxr` can currently be installed from [GitHub](https://github.com/markroepke/flxr) using `devtools::install_github()`:
+
+```{r eval = FALSE}
+devtools::install_github("markroepke/flxr")
+```
+
+We then need to load `flxr` and a few other packages we will want:
+
+```{r message = FALSE}
+library(flxr)
+library(tidyverse)
+```
+
+The `flxr` functions take a character string of a movie title as their main argument, so we should set up a vector of Oscar-nominated movie titles. I want to stick to Best Picture-nominated films for now.
+
+```{r}
+movie_titles <- c(
+  "Call Me By Your Name", "Darkest Hour", "Dunkirk", 
+  "Get Out", "Lady Bird", "Phantom Thread", "The Post",
+  "Three Billboards Outside Ebbing, Missouri", "The Shape of Water"
+)
+```
+
+<br>
+
+## Importing the movie data using `flxr`
+
+There are specialized functions in `flxr` to retrieve specific data about movies: `flx_mov_director()`, `flx_mov_user_rtg()`, `flx_mov_genre()`, etc. However, using `flx_mov_details()` will retrieve all of this information at once. In order to retrieve all available information for the movies in `movie_titles`, the following code should be run:
+
+```{r}
+movie_data <- movie_titles %>% 
+  map(flx_mov_details) %>% 
+  reduce(bind_rows)
+```
+
+This pulls all of the data for each movie and puts it into a single `tibble`:
+
+```{r}
+str(movie_data)
+```
+
+`flx_mov_details()` pulled the movie description, genre, director, lead cast, runtime, IMDB user rating, and Metacritic rating. We can use these variables to compare the films.
+
+<br>
+
+## Comparison of Films
+
+### Reviews
+
+Given that each of these films have been nominated for Best Picture, they should have received positive reviews.
+
+```{r}
+movie_data %>%
+  select(movie, user_rating, metacritic_rating) %>% 
+  summarise_at(
+    c("user_rating", "metacritic_rating"),
+    funs(min, median, mean, max, sd)
+  ) %>% 
+  gather(key, value) %>%
+  separate(key, c("variable", "rating", "metric"), "_") %>% 
+  unite(variable, variable, rating, sep = "_") %>% 
+  spread(metric, value) %>% 
+  knitr::kable()
+```
+
+It's clear that all of the Best Picture-nominated films receive positive reviews with the minimum Metacritic rating being 75 and the minimum IMDB user rating being 7.3. This type of result is expected, though. I find it more interesting that the IMDB user ratings are lower across the board even when mapping their 0-10 scores to a comparable 0-100 scale. It seems like IMDB users are tougher than critics - it's also possible that IMDB users are more likely to troll by giving low scores to great films.
+
+Let's take a look at which films scored well.
+
+```{r}
+movie_data %>% 
+  ggplot(aes(x = user_rating, y = metacritic_rating)) +
+  geom_point() +
+  geom_text(aes(label = movie), hjust = -0.1, vjust = -0.1) +
+  geom_smooth(se = FALSE, method = "lm", color = "grey") +
+  xlim(7.25, 9.5) +
+  ylim(72.5, 95) +
+  labs(title = "The top contenders are liked by IMDB users and critics",
+       subtitle = "IMDB User ratings and Metacritic ratings are correlated",
+       x = "IMDB Average User Rating",
+       y = "Metacritic Rating") +
+  theme_bw()
+```
+
+The films considered to be the primary contenders were scored well by IMDB users and critics. If we weight the two ratings equally, we can see which movie had the broadest appeal:
+
+```{r}
+movie_data %>% 
+  rowwise() %>% 
+  mutate(avg_score = mean(c(user_rating*10, metacritic_rating))) %>%
+  ungroup() %>% 
+  mutate(movie = fct_reorder(movie, avg_score)) %>% 
+  ggplot() +
+  geom_segment(aes(y = movie, yend = movie, x = 0, xend = avg_score)) +
+  geom_point(aes(y = movie, x = avg_score), size = 4) +
+  xlim(0, 100) +
+  labs(title = "Both critics and IMDB users like Call Me By Your Name",
+       y = "", 
+       x = "Average Score") +
+  theme_bw()
+```
+
+It appears that Call Me By Your Name broadly appeals to both critics and IMDB users better than other contenders. I also happen to be pulling for Call Me By Your Name to win Best Picture, perhaps coicidentally.
+
+### Genre
+
+One of the things I find most interesting about the Academy Awards is the comparison of films from different genres. It can be difficult to compare serious dramas like Call Me By Your Name to a thriller like Get Out. In fact, I think films like The Big Sick, which is about as good as a romantic comedy can get, don't get the credit they deserve because the genre isn't taken seriously.
+
+So how do the genres stack up against one another this year? Let's repeat the above analysis but this time at the `genre`-level.
+
+```{r}
+movie_data %>% 
+  group_by(genre) %>% 
+  summarize_at(c("user_rating", "metacritic_rating"), mean) %>%
+  ungroup() %>% 
+  rowwise() %>% 
+  mutate(avg_score = mean(c(user_rating*10, metacritic_rating))) %>%
+  ungroup() %>% 
+  mutate(genre = fct_reorder(genre, avg_score)) %>% 
+  ggplot() +
+  geom_segment(aes(y = genre, yend = genre, x = 0, xend = avg_score)) +
+  geom_point(aes(y = genre, x = avg_score), size = 4) +
+  xlim(0, 100) +
+  labs(title = "Action leads the way with the highest average score",
+       subtitle = "There are many genres nominated this year",
+       y = "", 
+       x = "Average Score") +
+  theme_bw()
+```
+
+It should certainly be pointed out that there are 7 unique genres for 9 films. While this certainly prohobits any claims from being made around genre success, the wide variety of nominations is a good thing from my point-of-view.
+
+## Thoughts on what is next
+
+I think it would be really interesting to retrieve this basic movie data on recent Best Picture nominees see if there is a trend around which nominees end up winning the Oscar. I'm hoping to do this in the coming days.

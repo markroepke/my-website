@@ -1,0 +1,173 @@
+---
+title: Comparing Oscar-nominated movies in R using flxr
+author: Mark Roepke
+date: '2018-02-25'
+slug: comparing-oscar-nominated-movies-in-r-using-flxr
+comments: false
+categories:
+  - r
+  - movies
+  - scraping
+  - packages
+tags:
+  - r
+  - movies
+  - scraping
+  - packages
+---
+
+
+
+<p>In my <a href="https://www.markroepke.me/post/introducing-flxr-an-r-package-to-retrieve-movie-data/">first post</a> I introduced <code>flxr</code>, a basic R package I wrote to retrieve basic movie data from the web. I showed examples of how a user can retrieve the director of a movie using <code>flxr::flx_mov_director()</code> and other movie details using <code>flxr::flx_mov_details()</code>. I decided to use The Godfather as the movie in my example (because, of course), but I’d like to dig into and compare movies nominated for the upcoming Academy Awards.</p>
+<p><br></p>
+<div id="setting-up-our-r-session" class="section level2">
+<h2>Setting up our R session</h2>
+<p>The first thing we need to do is install <code>flxr</code> if we haven’t already. <code>flxr</code> can currently be installed from <a href="https://github.com/markroepke/flxr">GitHub</a> using <code>devtools::install_github()</code>:</p>
+<pre class="r"><code>devtools::install_github(&quot;markroepke/flxr&quot;)</code></pre>
+<p>We then need to load <code>flxr</code> and a few other packages we will want:</p>
+<pre class="r"><code>library(flxr)
+library(tidyverse)</code></pre>
+<p>The <code>flxr</code> functions take a character string of a movie title as their main argument, so we should set up a vector of Oscar-nominated movie titles. I want to stick to Best Picture-nominated films for now.</p>
+<pre class="r"><code>movie_titles &lt;- c(
+  &quot;Call Me By Your Name&quot;, &quot;Darkest Hour&quot;, &quot;Dunkirk&quot;, 
+  &quot;Get Out&quot;, &quot;Lady Bird&quot;, &quot;Phantom Thread&quot;, &quot;The Post&quot;,
+  &quot;Three Billboards Outside Ebbing, Missouri&quot;, &quot;The Shape of Water&quot;
+)</code></pre>
+<p><br></p>
+</div>
+<div id="importing-the-movie-data-using-flxr" class="section level2">
+<h2>Importing the movie data using <code>flxr</code></h2>
+<p>There are specialized functions in <code>flxr</code> to retrieve specific data about movies: <code>flx_mov_director()</code>, <code>flx_mov_user_rtg()</code>, <code>flx_mov_genre()</code>, etc. However, using <code>flx_mov_details()</code> will retrieve all of this information at once. In order to retrieve all available information for the movies in <code>movie_titles</code>, the following code should be run:</p>
+<pre class="r"><code>movie_data &lt;- movie_titles %&gt;% 
+  map(flx_mov_details) %&gt;% 
+  reduce(bind_rows)</code></pre>
+<p>This pulls all of the data for each movie and puts it into a single <code>tibble</code>:</p>
+<pre class="r"><code>str(movie_data)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    9 obs. of  8 variables:
+##  $ movie            : chr  &quot;Call Me by Your Name&quot; &quot;Darkest Hour&quot; &quot;Dunkirk&quot; &quot;Get Out&quot; ...
+##  $ description      : chr  &quot;In Northern Italy in 1983, seventeen year-old Elio begins a relationship with visiting Oliver, his father&#39;s res&quot;| __truncated__ &quot;During the early days of World War II, the fate of Western Europe hangs on the newly-appointed British Prime Mi&quot;| __truncated__ &quot;Allied soldiers from Belgium, the British Empire and France are surrounded by the German Army, and evacuated du&quot;| __truncated__ &quot;It&#39;s time for a young African-American to meet with his white girlfriend&#39;s parents for a weekend in their seclu&quot;| __truncated__ ...
+##  $ genre            : chr  &quot;Drama&quot; &quot;Biography&quot; &quot;Action&quot; &quot;Horror&quot; ...
+##  $ director         : chr  &quot;Luca Guadagnino&quot; &quot;Joe Wright&quot; &quot;Christopher Nolan&quot; &quot;Jordan Peele&quot; ...
+##  $ lead_cast        :List of 9
+##   ..$ : chr  &quot;Armie Hammer&quot; &quot;Timothée Chalamet&quot; &quot;Michael Stuhlbarg&quot;
+##   ..$ : chr  &quot;Gary Oldman&quot; &quot;Lily James&quot; &quot;Kristin Scott Thomas&quot;
+##   ..$ : chr  &quot;Fionn Whitehead&quot; &quot;Barry Keoghan&quot; &quot;Mark Rylance&quot;
+##   ..$ : chr  &quot;Daniel Kaluuya&quot; &quot;Allison Williams&quot; &quot;Bradley Whitford&quot;
+##   ..$ : chr  &quot;Saoirse Ronan&quot; &quot;Laurie Metcalf&quot; &quot;Tracy Letts&quot;
+##   ..$ : chr  &quot;Vicky Krieps&quot; &quot;Daniel DayLewis&quot; &quot;Lesley Manville&quot;
+##   ..$ : chr  &quot;Meryl Streep&quot; &quot;Tom Hanks&quot; &quot;Sarah Paulson&quot;
+##   ..$ : chr  &quot;Frances McDormand&quot; &quot;Woody Harrelson&quot; &quot;Sam Rockwell&quot;
+##   ..$ : chr  &quot;Sally Hawkins&quot; &quot;Octavia Spencer&quot; &quot;Michael Shannon&quot;
+##  $ runtime          : num  132 125 106 104 94 130 116 115 123
+##  $ user_rating      : num  8.2 7.4 8 7.7 7.7 7.9 7.3 8.3 7.8
+##  $ metacritic_rating: num  93 75 94 84 94 90 83 88 87</code></pre>
+<p><code>flx_mov_details()</code> pulled the movie description, genre, director, lead cast, runtime, IMDB user rating, and Metacritic rating. We can use these variables to compare the films.</p>
+<p><br></p>
+</div>
+<div id="comparison-of-films" class="section level2">
+<h2>Comparison of Films</h2>
+<div id="reviews" class="section level3">
+<h3>Reviews</h3>
+<p>Given that each of these films have been nominated for Best Picture, they should have received positive reviews.</p>
+<pre class="r"><code>movie_data %&gt;%
+  select(movie, user_rating, metacritic_rating) %&gt;% 
+  summarise_at(
+    c(&quot;user_rating&quot;, &quot;metacritic_rating&quot;),
+    funs(min, median, mean, max, sd)
+  ) %&gt;% 
+  gather(key, value) %&gt;%
+  separate(key, c(&quot;variable&quot;, &quot;rating&quot;, &quot;metric&quot;), &quot;_&quot;) %&gt;% 
+  unite(variable, variable, rating, sep = &quot;_&quot;) %&gt;% 
+  spread(metric, value) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">median</th>
+<th align="right">min</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">metacritic_rating</td>
+<td align="right">94.0</td>
+<td align="right">87.555556</td>
+<td align="right">88.0</td>
+<td align="right">75.0</td>
+<td align="right">6.2271806</td>
+</tr>
+<tr class="even">
+<td align="left">user_rating</td>
+<td align="right">8.3</td>
+<td align="right">7.811111</td>
+<td align="right">7.8</td>
+<td align="right">7.3</td>
+<td align="right">0.3333333</td>
+</tr>
+</tbody>
+</table>
+<p>It’s clear that all of the Best Picture-nominated films receive positive reviews with the minimum Metacritic rating being 75 and the minimum IMDB user rating being 7.3. This type of result is expected, though. I find it more interesting that the IMDB user ratings are lower across the board even when mapping their 0-10 scores to a comparable 0-100 scale. It seems like IMDB users are tougher than critics - it’s also possible that IMDB users are more likely to troll by giving low scores to great films.</p>
+<p>Let’s take a look at which films scored well.</p>
+<pre class="r"><code>movie_data %&gt;% 
+  ggplot(aes(x = user_rating, y = metacritic_rating)) +
+  geom_point() +
+  geom_text(aes(label = movie), hjust = -0.1, vjust = -0.1) +
+  geom_smooth(se = FALSE, method = &quot;lm&quot;, color = &quot;grey&quot;) +
+  xlim(7.25, 9.5) +
+  ylim(72.5, 95) +
+  labs(title = &quot;The top contenders are liked by IMDB users and critics&quot;,
+       subtitle = &quot;IMDB User ratings and Metacritic ratings are correlated&quot;,
+       x = &quot;IMDB Average User Rating&quot;,
+       y = &quot;Metacritic Rating&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/2018-02-25-comparing-oscar-nominated-movies-in-r-using-flxr_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>The films considered to be the primary contenders were scored well by IMDB users and critics. If we weight the two ratings equally, we can see which movie had the broadest appeal:</p>
+<pre class="r"><code>movie_data %&gt;% 
+  rowwise() %&gt;% 
+  mutate(avg_score = mean(c(user_rating*10, metacritic_rating))) %&gt;%
+  ungroup() %&gt;% 
+  mutate(movie = fct_reorder(movie, avg_score)) %&gt;% 
+  ggplot() +
+  geom_segment(aes(y = movie, yend = movie, x = 0, xend = avg_score)) +
+  geom_point(aes(y = movie, x = avg_score), size = 4) +
+  xlim(0, 100) +
+  labs(title = &quot;Both critics and IMDB users like Call Me By Your Name&quot;,
+       y = &quot;&quot;, 
+       x = &quot;Average Score&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/2018-02-25-comparing-oscar-nominated-movies-in-r-using-flxr_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>It appears that Call Me By Your Name broadly appeals to both critics and IMDB users better than other contenders. I also happen to be pulling for Call Me By Your Name to win Best Picture, perhaps coicidentally.</p>
+</div>
+<div id="genre" class="section level3">
+<h3>Genre</h3>
+<p>One of the things I find most interesting about the Academy Awards is the comparison of films from different genres. It can be difficult to compare serious dramas like Call Me By Your Name to a thriller like Get Out. In fact, I think films like The Big Sick, which is about as good as a romantic comedy can get, don’t get the credit they deserve because the genre isn’t taken seriously.</p>
+<p>So how do the genres stack up against one another this year? Let’s repeat the above analysis but this time at the <code>genre</code>-level.</p>
+<pre class="r"><code>movie_data %&gt;% 
+  group_by(genre) %&gt;% 
+  summarize_at(c(&quot;user_rating&quot;, &quot;metacritic_rating&quot;), mean) %&gt;%
+  ungroup() %&gt;% 
+  rowwise() %&gt;% 
+  mutate(avg_score = mean(c(user_rating*10, metacritic_rating))) %&gt;%
+  ungroup() %&gt;% 
+  mutate(genre = fct_reorder(genre, avg_score)) %&gt;% 
+  ggplot() +
+  geom_segment(aes(y = genre, yend = genre, x = 0, xend = avg_score)) +
+  geom_point(aes(y = genre, x = avg_score), size = 4) +
+  xlim(0, 100) +
+  labs(title = &quot;Action leads the way with the highest average score&quot;,
+       subtitle = &quot;There are many genres nominated this year&quot;,
+       y = &quot;&quot;, 
+       x = &quot;Average Score&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/2018-02-25-comparing-oscar-nominated-movies-in-r-using-flxr_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>It should certainly be pointed out that there are 7 unique genres for 9 films. While this certainly prohobits any claims from being made around genre success, the wide variety of nominations is a good thing from my point-of-view.</p>
+</div>
+</div>
+<div id="thoughts-on-what-is-next" class="section level2">
+<h2>Thoughts on what is next</h2>
+<p>I think it would be really interesting to retrieve this basic movie data on recent Best Picture nominees see if there is a trend around which nominees end up winning the Oscar. I’m hoping to do this in the coming days.</p>
+</div>
