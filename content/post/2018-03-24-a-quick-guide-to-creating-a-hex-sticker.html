@@ -1,0 +1,70 @@
+---
+title: A quick guide to creating a hex sticker
+author: Mark Roepke
+date: '2018-03-24'
+slug: a-quick-guide-to-creating-a-hex-sticker
+comments: false
+categories:
+  - r
+  - tutorial
+  - sticker
+  - packages
+tags:
+  - r
+  - tutorial
+  - sticker
+  - packages
+header:
+  image: "flxr-sticker.png"
+---
+
+
+
+<p>In my <a href="https://www.markroepke.me/post/introducing-flxr-an-r-package-to-retrieve-movie-data/">first post</a> I introduced <code>flxr</code>, a basic R package I wrote to retrieve basic movie data from the web. Because any respectable R package has a hex sticker, I decided to put my design skills to the test and create one for <code>flxr</code>. This is an overview of that process that can hopefully be followed by those wanting to create their own hex sticker.</p>
+<p><br></p>
+<div id="hexsticker-package" class="section level2">
+<h2><code>hexSticker</code> Package</h2>
+<p>I had no idea where to begin in creating a hex sticker for <code>flxr</code>, but I immediately thought there could be an R package for creating hex stickers and I was correct. <a href="https://twitter.com/guangchuangyu">Guangchuang Yu</a> created the <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker package</a> to enable R users to easily create hex stickers for various purposes. The README on the package’s GitHub page gives a great overview and displays stickers users have made with the package, which is great for sharing and inspiration!</p>
+<p>The <code>hexSticker</code> package is on CRAN, so it can easily be installed and loaded:</p>
+<pre class="r"><code>install.packages(hexSticker)
+library(hexSticker)</code></pre>
+</div>
+<div id="obtaining-a-sticker-feature" class="section level2">
+<h2>Obtaining a Sticker Feature</h2>
+<p>The next step in creating a hex sticker is to determine its “feature”, a central object that is the focus of the sticker. It’s a good idea to make the feature a representation of the purpose of the R package. For example, the <code>dplyr</code> sticker has pliers as its feature:</p>
+<p align="center">
+<img src = "/img/dplyr-sticker.png">
+</p>
+<p>In a similar spirit, I decided to use a clip art image of a movie camera for <code>flxr</code> given that it scrapes data about movies:</p>
+<p align="center">
+<img width = "25%" height = "25%" src = "/img/flxr-camera.png">
+</p>
+<p>If you do not wish to use an image as the feature of your sticker, there are other examples available on the <code>hexSticker</code> GitHub page.</p>
+</div>
+<div id="creating-the-sticker" class="section level2">
+<h2>Creating the Sticker</h2>
+<p>The <code>sticker()</code> function in the <code>hexSticker</code> package is used for actually creating a sticker. It automatically creates the hexagonal shape and correct size, as well as provides a default template as a starting point. However, it’s the default is not extremely detailed and it’s likely easier to edit something more detailed. The code I used to create the <code>flxr</code> sticker is below:</p>
+<pre class="r"><code>sticker(
+  package = &quot;flxr&quot;,                     # package name to display on sticker             
+  p_size = 24,                          # size of package name
+  p_y = 1.5,                            # y of package name
+  p_color = &quot;#C9B128&quot;,                  # color of package name
+  subplot = &quot;base_camera.png&quot;,          # sticker feature
+  s_x = 1.085,                          # x of feature
+  s_y = .8,                             # y of feature
+  s_width = .48,                        # width of feature - maintains aspect ratio
+  h_size = 2,                           # border
+  h_color = &quot;#C9B128&quot;,                  # color of border
+  h_fill = &quot;black&quot;,                     # color of background
+  url = &quot;github.com/markroepke/flxr&quot;,   # url at the bottom
+  u_color = &quot;white&quot;,                    # color of url at the bottom
+  u_size = 3.5,                         # size of url at the bottom
+  filename = &quot;flxr.png&quot;                 # location to save the image
+)</code></pre>
+<p>Note that the sticker image created by the <code>sticker()</code> function does not display in the plot or viewer window within RStudio, but it does save to the location specified in the <code>filename</code> parameter.</p>
+<p>Here is the sticker I’ve created for <code>flxr</code>, which is a direct result of the above code:</p>
+<p align="center">
+<img width = "25%" height = "25%" src = "/img/flxr-sticker.png">
+</p>
+<p>Hopefully this is a decent guide for quickly creating a hex sticker with the <code>hexSticker</code> R package. I would like to play around with this some more to better understand the package’s full functionality.</p>
+</div>

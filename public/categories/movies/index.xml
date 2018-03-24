@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Movies on Mark Roepke</title>
-    <link>/categories/movies/</link>
+    <link>https://markroepke.netlify.com/categories/movies/</link>
     <description>Recent content in Movies on Mark Roepke</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 25 Feb 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/movies/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://markroepke.netlify.com/categories/movies/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Comparing Oscar-nominated movies in R using flxr</title>
-      <link>/post/comparing-oscar-nominated-movies-in-r-using-flxr/</link>
+      <link>https://markroepke.netlify.com/post/comparing-oscar-nominated-movies-in-r-using-flxr/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/comparing-oscar-nominated-movies-in-r-using-flxr/</guid>
+      <guid>https://markroepke.netlify.com/post/comparing-oscar-nominated-movies-in-r-using-flxr/</guid>
       <description>In my first post I introduced flxr, a basic R package I wrote to retrieve basic movie data from the web. I showed examples of how a user can retrieve the director of a movie using flxr::flx_mov_director() and other movie details using flxr::flx_mov_details(). I decided to use The Godfather as the movie in my example (because, of course), but I’d like to dig into and compare movies nominated for the upcoming Academy Awards.</description>
     </item>
     
     <item>
       <title>Introducing flxr - an R package to retrieve movie data</title>
-      <link>/post/introducing-flxr-an-r-package-to-retrieve-movie-data/</link>
+      <link>https://markroepke.netlify.com/post/introducing-flxr-an-r-package-to-retrieve-movie-data/</link>
       <pubDate>Fri, 23 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/introducing-flxr-an-r-package-to-retrieve-movie-data/</guid>
+      <guid>https://markroepke.netlify.com/post/introducing-flxr-an-r-package-to-retrieve-movie-data/</guid>
       <description>I am happy to say that I’ve created my first R package: flxr. This package is designed to scrape basic data about movies.
 It can be installed using the devtools package:
 devtools::install_github(&amp;quot;markroepke/flxr&amp;quot;)library(flxr)The flxr package retrieves information about movies using only a user-provided movie title. For example, if we wanted to find the director of The Godfather, we could use the flx_mov_director() function:

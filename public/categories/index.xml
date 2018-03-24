@@ -2,47 +2,65 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Mark Roepke</title>
-    <link>/categories/</link>
+    <link>https://markroepke.netlify.com/categories/</link>
     <description>Recent content in Categories on Mark Roepke</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://markroepke.netlify.com/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Movies</title>
-      <link>/categories/movies/</link>
+      <link>https://markroepke.netlify.com/categories/movies/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/movies/</guid>
+      <guid>https://markroepke.netlify.com/categories/movies/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Packages</title>
-      <link>/categories/packages/</link>
-      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      <link>https://markroepke.netlify.com/categories/packages/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/packages/</guid>
+      <guid>https://markroepke.netlify.com/categories/packages/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      <link>https://markroepke.netlify.com/categories/r/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/r/</guid>
+      <guid>https://markroepke.netlify.com/categories/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Scraping</title>
-      <link>/categories/scraping/</link>
+      <link>https://markroepke.netlify.com/categories/scraping/</link>
       <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/scraping/</guid>
+      <guid>https://markroepke.netlify.com/categories/scraping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sticker</title>
+      <link>https://markroepke.netlify.com/categories/sticker/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://markroepke.netlify.com/categories/sticker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>https://markroepke.netlify.com/categories/tutorial/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://markroepke.netlify.com/categories/tutorial/</guid>
       <description></description>
     </item>
     
