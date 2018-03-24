@@ -29,7 +29,7 @@ I had no idea where to begin in creating a hex sticker for `flxr`, but I immedia
 The `hexSticker` package is on CRAN, so it can easily be installed and loaded:
 
 ```{r eval = FALSE}
-install.packages(hexSticker)
+install.packages("hexSticker")
 library(hexSticker)
 ```
 

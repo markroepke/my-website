@@ -38,25 +38,25 @@
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/tags/movies/</loc>
-    <lastmod>2018-02-25T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://markroepke.netlify.com/categories/movies/</loc>
     <lastmod>2018-02-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/tags/packages/</loc>
-    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
+    <loc>https://markroepke.netlify.com/tags/movies/</loc>
+    <lastmod>2018-02-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://markroepke.netlify.com/categories/packages/</loc>
+    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://markroepke.netlify.com/tags/packages/</loc>
     <lastmod>2018-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -68,20 +68,14 @@
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/tags/r/</loc>
-    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://markroepke.netlify.com/categories/r/</loc>
     <lastmod>2018-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/tags/scraping/</loc>
-    <lastmod>2018-02-25T00:00:00+00:00</lastmod>
+    <loc>https://markroepke.netlify.com/tags/r/</loc>
+    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -92,13 +86,19 @@
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/tags/sticker/</loc>
-    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
+    <loc>https://markroepke.netlify.com/tags/scraping/</loc>
+    <lastmod>2018-02-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://markroepke.netlify.com/categories/sticker/</loc>
+    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://markroepke.netlify.com/tags/sticker/</loc>
     <lastmod>2018-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -110,13 +110,13 @@
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/tags/tutorial/</loc>
+    <loc>https://markroepke.netlify.com/categories/tutorial/</loc>
     <lastmod>2018-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://markroepke.netlify.com/categories/tutorial/</loc>
+    <loc>https://markroepke.netlify.com/tags/tutorial/</loc>
     <lastmod>2018-03-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
